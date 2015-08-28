@@ -1,0 +1,35 @@
+<script>
+function A() {
+  this.x = 3;
+}
+
+A.prototype.y = 9;
+
+function B() {
+  A.call(this); // super();
+}
+
+// B extends A
+B.prototype = Object.create(A.prototype);
+B.prototype.constructor = B;
+
+function C() {
+  B.call(this); // super();
+  this.x = 11;
+  this.y = 12;
+}
+
+// C extends B
+C.prototype = Object.create(B.prototype);
+C.prototype.constructor = C;
+
+var a = new A();
+var b = new B();
+var c = new C();
+console.log(a.x, a.y); // 3 9
+console.log(b.x, b.y); // 3 9
+console.log(c.x, c.y); // 11 12
+console.log(b instanceof A); // true
+console.log(c instanceof A); // true
+console.log(c instanceof B); // true
+</script>
